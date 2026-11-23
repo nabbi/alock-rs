@@ -4,6 +4,7 @@ version = "0.1.0"
 edition = "2024"
 description = "X11 screen locker with software ARGB cursor and animated console theme"
 license = "MIT"
+repository = "https://github.com/nabbi/alock-rs"
 rust-version = "1.88"
 
 [features]

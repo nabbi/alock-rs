@@ -1,0 +1,39 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # 1.88 is the rust-version in Cargo.toml
+        rust: [stable, "1.88"]
+    steps:
+      - uses: actions/checkout@v4
+      - name: libpam headers
+        run: sudo apt-get update && sudo apt-get install -y libpam0g-dev
+      - name: toolchain
+        run: |
+          rustup toolchain install ${{ matrix.rust }} --profile minimal --component clippy,rustfmt
+          rustup default ${{ matrix.rust }}
+      - name: fmt
+        if: matrix.rust == 'stable'
+        run: cargo fmt --check
+      - name: clippy
+        if: matrix.rust == 'stable'
+        run: cargo clippy --locked --all-targets --all-features -- -D warnings
+      - name: test
+        run: cargo test --locked --all-features
+      - name: release build
+        run: cargo build --locked --release
