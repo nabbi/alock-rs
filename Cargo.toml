@@ -1,0 +1,26 @@
+[package]
+name = "alock-rs"
+version = "0.1.0"
+edition = "2024"
+description = "X11 screen locker with software ARGB cursor and animated console theme"
+license = "MIT"
+rust-version = "1.88"
+
+[features]
+# Accept `-auth test:password=X` (scripted Xvfb runs). Never enable this in a
+# build that locks a real session.
+test-auth = []
+
+[dependencies]
+image = { version = "0.25.10", default-features = false, features = ["png", "jpeg"] }
+libc = "0.2.191"
+x11rb = { version = "0.14.0", features = ["dpms", "randr", "shm"] }
+zeroize = "1.9.1"
+
+[dev-dependencies]
+x11rb = { version = "0.14.0", features = ["xtest"] }
+
+[profile.release]
+lto = true
+codegen-units = 1
+strip = true
