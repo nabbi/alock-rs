@@ -5,6 +5,8 @@ parts that were worth keeping, PAM, an image background and a custom
 **alpha-transparent image cursor**, and adds an animated starship-console
 lock screen that you can click.
 
+![The console theme: sensor sweep screen, data grids and the authorization panel](docs/screenshot.png)
+
 ```sh
 # drop-in for the old alock line
 xss-lock -- alock-rs -bg image:file=$HOME/.images/lock -cursor image:file=$HOME/.images/larry.png
